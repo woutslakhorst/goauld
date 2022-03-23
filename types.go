@@ -141,22 +141,3 @@ func (s Scalar) Bytes() []byte {
 
 	return []byte{}
 }
-
-func toBytes(data interface{}) ([]byte, error) {
-	switch castData := data.(type) {
-	case []uint8:
-		return castData, nil
-	case uint32:
-		var buf [4]byte
-		binary.BigEndian.PutUint32(buf[:], castData)
-		return buf[:], nil
-	case string:
-		return []byte(castData), nil
-	case float64:
-		var buf [8]byte
-		binary.BigEndian.PutUint64(buf[:], math.Float64bits(castData))
-		return buf[:], nil
-	}
-
-	return nil, errors.New("couldn't convert data to []byte")
-}

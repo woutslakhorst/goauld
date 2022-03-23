@@ -20,8 +20,6 @@
 package goauld
 
 import (
-	"encoding/binary"
-	"math"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -38,41 +36,4 @@ func TestReference_ByteSize(t *testing.T) {
 	ref := Reference("ref")
 
 	assert.Equal(t, 3, ref.ByteSize())
-}
-
-func TestToBytes(t *testing.T) {
-	t.Run("ok - float", func(t *testing.T) {
-		s := 0.0
-
-		b, err := toBytes(s)
-
-		if !assert.NoError(t, err) {
-			return
-		}
-
-		bits := binary.BigEndian.Uint64(b)
-		fl := math.Float64frombits(bits)
-
-		assert.Equal(t, s, fl)
-	})
-
-	t.Run("ok - string", func(t *testing.T) {
-		s := "test"
-
-		b, err := toBytes(s)
-
-		if !assert.NoError(t, err) {
-			return
-		}
-
-		assert.Equal(t, s, string(b))
-	})
-
-	t.Run("error - unknown type", func(t *testing.T) {
-		s := 0
-
-		_, err := toBytes(s)
-
-		assert.Error(t, err)
-	})
 }

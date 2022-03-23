@@ -20,6 +20,7 @@
 package goauld
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -401,8 +402,8 @@ func TestIndex_addRefToBucket(t *testing.T) {
 			bucket := testBucket(t, tx)
 
 			for i := uint32(0); i < 16; i++ {
-				iBytes, _ := toBytes(i)
-				if err := addRefToBucket(bucket, []byte("key"), iBytes); err != nil {
+				iBytes := fmt.Sprintf("%d", i)
+				if err := addRefToBucket(bucket, []byte("key"), []byte(iBytes)); err != nil {
 					return err
 				}
 			}
